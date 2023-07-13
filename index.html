@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Random Advice Generator</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/css/emojione.min.css">
+  <style>
+    body {
+      background-color: #ffffff;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      text-align: center;
+      font-family: 'Pacifico', cursive;
+    }
+    .advice {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .shape {
+      font-size: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Random Advice Generator</h1>
+    <p class="advice" id="advice"></p>
+    <p class="shape">&#x1F60A;</p>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // Function to generate random advice
+    function generateAdvice() {
+      $.getJSON('https://api.adviceslip.com/advice', function(data) {
+        const advice = data.slip.advice;
+        $('#advice').text(advice);
+      });
+    }
+
+    // Generate initial advice on page load
+    generateAdvice();
+
+    // Generate advice every 5 seconds
+    setInterval(function() {
+      generateAdvice();
+    }, 5000);
+  </script>
+</body>
+</html>

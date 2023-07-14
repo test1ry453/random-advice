@@ -18,6 +18,10 @@
       font-size: 24px;
       margin-bottom: 20px;
     }
+    #image {
+      max-width: 100%;
+      height: auto;
+    }
   </style>
 </head>
 <body>
@@ -25,35 +29,50 @@
     <h1 id="header">Random Advice Generator</h1>
     <p class="advice" id="advice"></p>
   </div>
+  <img id="image">
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
   <script>
-
     const urlParams = new URLSearchParams(window.location.search);
     const param_bg = urlParams.get('bg');
     const param_interval = urlParams.get('interval')
 
-    if(param_bg == 'dark') 
-    {
-        document.body.style.backgroundColor = "#2C3333"
-        document.getElementById("header").style.color = "#ffffff"
-        document.getElementById("advice").style.color = "#ffffff"
-    } else {		
-        document.body.style.backgroundColor = "#F8F6F4"
-        document.getElementById("header").style.color = "#000000"
-        document.getElementById("advice").style.color = "#000000"
+    if (param_bg === 'dark') {
+      document.body.style.backgroundColor = "#2C3333"
+      document.getElementById("header").style.color = "#ffffff"
+      document.getElementById("advice").style.color = "#ffffff"
+    } else {
+      document.body.style.backgroundColor = "#F8F6F4"
+      document.getElementById("header").style.color = "#000000"
+      document.getElementById("advice").style.color = "#000000"
     }
-    
+
     function generateAdvice() {
       $.getJSON('https://api.adviceslip.com/advice', function(data) {
         const advice = data.slip.advice;
         $('#advice').text(advice);
+
+        // Remove previous image
+        const previousImage = document.getElementById("image");
+        if (previousImage) {
+          previousImage.parentNode.removeChild(previousImage);
+        }
+
+        html2canvas(document.querySelector('.container'), { useCORS: true }).then(function(canvas) {
+          const image = document.createElement("img");
+          image.id = "image";
+          image.src = canvas.toDataURL("image/png");
+
+          const container = document.querySelector(".container");
+          document.body.prepend(image);
+        });
       });
     }
 
     generateAdvice();
 
-    let interval = typeof param_interval == "object" ? 5 : Number(param_interval)
+    let interval = typeof param_interval === "object" ? 5 : Number(param_interval)
     setInterval(function() {
       generateAdvice();
     }, interval * 1000);

@@ -28,6 +28,16 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
+
+    // Get the URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+
+    // Get the value of a specific parameter
+    const paramValue = urlParams.get('parameterName');
+
+    // Use the parameter value in your code
+    console.log('Parameter Value:', paramValue);
+    
     // Function to generate random advice
     function generateAdvice() {
       $.getJSON('https://api.adviceslip.com/advice', function(data) {

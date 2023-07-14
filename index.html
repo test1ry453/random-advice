@@ -52,6 +52,9 @@
         document.getElementById("header").style.color = "#000000"
         document.getElementById("advice").style.color = "#000000"
     }
+
+
+    console.warn("x", typeof param_interval)
     
     // Function to generate random advice
     function generateAdvice() {
@@ -65,9 +68,11 @@
     generateAdvice();
 
     // Generate advice every 5 seconds
+    
+    let interval = typeof param_interval == "object" ? 5 : Number(param_interval)
     setInterval(function() {
       generateAdvice();
-    }, param_interval * 1000);
+    }, interval * 1000);
   </script>
 </body>
 </html>

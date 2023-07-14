@@ -29,19 +29,10 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script>
 
-    // Get the URL parameters
     const urlParams = new URLSearchParams(window.location.search);
-
-    // Get the value of a specific parameter
     const param_bg = urlParams.get('bg');
-
-    // interval
     const param_interval = urlParams.get('interval')
 
-    // Use the parameter value in your code
-    console.log('Parameter Value:', typeof param_bg);
-
-    // bg and text color
     if(param_bg == 'dark') 
     {
         document.body.style.backgroundColor = "#2C3333"
@@ -52,11 +43,7 @@
         document.getElementById("header").style.color = "#000000"
         document.getElementById("advice").style.color = "#000000"
     }
-
-
-    console.warn("x", typeof param_interval)
     
-    // Function to generate random advice
     function generateAdvice() {
       $.getJSON('https://api.adviceslip.com/advice', function(data) {
         const advice = data.slip.advice;
@@ -64,11 +51,8 @@
       });
     }
 
-    // Generate initial advice on page load
     generateAdvice();
 
-    // Generate advice every 5 seconds
-    
     let interval = typeof param_interval == "object" ? 5 : Number(param_interval)
     setInterval(function() {
       generateAdvice();
